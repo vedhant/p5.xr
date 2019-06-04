@@ -153,14 +153,6 @@ export default class p5xr {
       session.requestAnimationFrame(self.onXRFrame);
       // Get the XRDevice pose relative to the Frame of Reference we created
       // earlier.
-      // if(p5.instance.width < window.innerWidth * window.devicePixelRatio) {
-      //   let oldWidth = p5.instance.width;
-      //   p5.instance.resizeCanvas(
-      //     window.innerWidth * window.devicePixelRatio,
-      //     window.innerHeight * window.devicePixelRatio
-      //   );
-      //   console.log('p5 Canvas resized from '+oldWidth+' to '+p5.instance.width);
-      // }
       let pose;
       if(self.injectedPolyfill) {
         pose = frame.getDevicePose(self.xrFrameOfRef);
@@ -212,9 +204,9 @@ export default class p5xr {
     this._drawEye = function(eyeIndex) {
       if(self.isVR) {
         if(eyeIndex === 0) {
-          p5xr.instance.vrGlobals = { ...vrGlobals};
+          p5xr.instance.vrGlobals = JSON.parse(JSON.stringify(vrGlobals));
         } else {
-          vrGlobals = {...p5xr.instance.vrGlobals};
+          vrGlobals = JSON.parse(JSON.stringify(p5xr.instance.vrGlobals));
         }
       }
       // 2D Mode should use graphics object
@@ -230,16 +222,12 @@ export default class p5xr {
         if (typeof userSetup === 'undefined') {
           context.scale(context._pixelDensity, context._pixelDensity);
         }
-        // var callMethod = function(f) {
-        //   f.call(context);
-        // };
         if (context._renderer.isP3D) {
           self._updatexr();
         } else {
           console.error('Context does not have 3D Renderer');
         }
         
-        // context._registeredMethods.pre.forEach(callMethod);
         p5.instance._inUserDraw = true;
         try {
           userDraw();
@@ -249,7 +237,6 @@ export default class p5xr {
         if(eyeIndex === 1) {
           context._setProperty('frameCount', context.frameCount + 1);
         }
-        // context._registeredMethods.post.forEach(callMethod);
       }
     };
 
