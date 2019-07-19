@@ -10,6 +10,7 @@
     "build": "parcel build ./src/app.js --no-minify --out-file p5xr.js",
     "watch": "parcel watch ./src/app.js --out-file p5xr.js",
     "test": "karma start karma.conf.js",
+    "lint": "eslint src/p5xr/core/raycasting.js tests/manual-test-examples/p5vr/raycasting/**/*.js --fix",
     "docs": "node_modules/.bin/jsdoc -c jsdoc.json -r"
   },
   "repository": {
